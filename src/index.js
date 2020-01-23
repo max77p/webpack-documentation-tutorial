@@ -1,24 +1,36 @@
-import _ from "lodash";
+// import _ from "lodash";
 import printMe from "./print.js";
-import './styles.css';
+import "./styles.css";
 
-function component() {
-  const element = document.createElement("div");
-  const btn = document.createElement("button");
+// function component() {
+async function getComponent() {
+  //   const element = document.createElement("div");
+  //   const btn = document.createElement("button");
 
-  //Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = _.join(["Hello", "webpack"], " ");
+  //   //Lodash, currently included via a script, is required for this line to work
+  //   element.innerHTML = _.join(["Hello", "webpack"], " ");
+//   return import(/* webpackChunkName: "lodash" */ "lodash")
+//     .then(({ default: _ }) => {
+//       const element = document.createElement("div");
 
-  btn.innerHTML = "Click me and check the console!";
-  btn.onclick = printMe;
+//       element.innerHTML = _.join(["Hello", "webpack"], " ");
 
-  element.appendChild(btn);
+//       return element;
+//     })
+//     .catch(error => "An error occurred while loading the component");
 
-  return element;
+     const element = document.createElement('div');
+   const { default: _ } = await import(/* webpackChunkName: "lodash" */ 'lodash');
+
+   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+   return element;
 }
 
-document.body.appendChild(component());
-
+// document.body.appendChild(component());
+// getComponent().then(component => {
+//   document.body.appendChild(component);
+// });
 if (module.hot) {
   module.hot.accept("./print.js", function() {
     console.log("Accepting the updated printMe module!");
